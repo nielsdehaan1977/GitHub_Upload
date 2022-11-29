@@ -17,17 +17,17 @@ loan_costs = [500, 600, 200, 1000, 450]
 # Determine the amount of loans in loan_costs list
 number_of_loans = len(loan_costs)
 # Print the number of loans from the list
-print(f"Number of loans: ", number_of_loans)
+print(f"Number of loans: {number_of_loans:.2f}")
 
 # Sum total of all loans
 total_of_loans = sum(loan_costs)
 # Print the total value of the loans
-print(f"Total sum of loans: ", total_of_loans)
+print(f"Total sum of loans: {total_of_loans:.2f}")
 
 # Determine average amount of loans price
 average_of_loans = total_of_loans / number_of_loans
 # Print the average loan amount
-print(f"Average amount per loan :", average_of_loans)
+print(f"Average amount per loan: {average_of_loans:.2f}")
 
 """Part 2: Analyze Loan Data.
 
@@ -63,11 +63,11 @@ loan = {
 # Extract Future Value from loan dictionary Remaining Months on the loan.
 future_value = loan.get("future_value")
 # Print future value of loan
-print(f"FutureValue of loan is: ", future_value)
+print(f"FutureValue of loan is: {future_value:.2f}")
 # Extract Remaining Months on the loan from loan dictionary .
 months_remain = loan.get("remaining_months")
 # Print Months Remaining of loan
-print(f"Months Remaining :", months_remain)
+print(f"Months Remaining: {months_remain:.2f}")
 
 # @TODO: Use the formula for Present Value to calculate a "fair value" of the loan.
 # Use a minimum required return of 20% as the discount rate.
@@ -79,7 +79,7 @@ discount_rate = 0.20
 # Calculate fair value using discount rate variable
 fair_value = future_value/(1 + discount_rate/12)**months_remain
 # print Fair Value
-print(f"Fair Value of loan at discount 20% :", fair_value)
+print(f"Fair Value of loan at discount 20%: {fair_value:.2f}")
 
 # If Present Value represents what the loan is really worth, does it make sense to buy the loan at its cost?
 # @TODO: Write a conditional statement (an if-else statement) to decide if the present value represents the loan's fair value.
@@ -87,21 +87,21 @@ print(f"Fair Value of loan at discount 20% :", fair_value)
 #    Else, the present value of the loan is less than the loan cost, then print a message that says that the loan is too expensive and not worth the price.
 
 # create counter to be able to understand in the print which loan is worth buying
-loan_number = 0
+loan_index = -1
 
 # Use for loop to loop through loan_costs list 
 for loan in loan_costs:
     # Determine/count which loan gives which result
-    loan_number = loan_number + 1
+    loan_index = loan_index + 1
     
     # Determine if current loan cost is lower or equal to fair_value calculation
     if fair_value >= loan:
         # If fair value greater than or equal to the cost, print Loan_number / PV of loan / Fair Value of the Loan 
-        print(f"Loannumber {loan_number},  PV is {loan} FV is {fair_value:.2f} and is worth at least the cost to buy it")
+        print(f"Loan with index {loan_index},  PV is {loan:.2f} FV is {fair_value:.2f} and is worth at least the cost to buy it")
     
     # if fair value is lower than the cost of the loan, print Loan_number / PV of loan / Fair Value of the Loan 
     else:
-        print(f"Loannumber {loan_number},  PV is {loan} FV is {fair_value:.2f} and is too expensive and not worth the price")
+        print(f"Loan with index {loan_index},  PV is {loan:.2f} FV is {fair_value:.2f} and is too expensive and not worth the price")
 
 
 """Part 3: Perform Financial Calculations.
@@ -205,21 +205,18 @@ Output this list of inexpensive loans to a csv file
     https://docs.python.org/3/library/csv.html#writer-objects
 
 """
-
 # Set the output header
 header = ["loan_price", "remaining_months", "repayment_interval", "future_value"]
 
 # Set the output file path
 output_path = Path("inexpensive_loans.csv")
 
-# @TODO: Use the csv library and `csv.writer` to write the header row
-# and each row of `loan.values()` from the `inexpensive_loans` list.
-
+# Create a new empty file using variable name 'output_path' to make a file that include all 'inexpensive loans'
 with open(output_path,'w',newline='') as csvfile:
+    # Return a writer object responsible for converting the user’s data into delimited strings
     csvwriter = csv.writer(csvfile,delimiter=',')
     # write header to first row
     csvwriter.writerow(header)
-    # write data to rows
+    # write each row of `loan.values()` from the `inexpensive_loans` list.
     for row in inexpensive_loans:
         csvwriter.writerow(row.values())
-
